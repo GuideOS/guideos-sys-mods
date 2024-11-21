@@ -2,7 +2,7 @@
 
 # Define the package name and version
 PACKAGE_NAME="guideos-sys-mods"
-VERSION="1.0"
+VERSION="1.1"
 
 # Define the dependencies
 DEPENDENCIES="bash"

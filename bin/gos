@@ -2,18 +2,16 @@
 
 # Hilfe-Funktion
 usage() {
-  echo "Usage: $0 [-a] [-f] [-s] [-up]"
+  echo "Usage: $0 [-a] [-f] [-up]"
   echo "  -a     update APT packages"
   echo "  -f     update Flatpak packages"
-  echo "  -s     update Snap packages"
-  echo "  -up    update all (APT, Flatpak, Snap)"
+  echo "  -up    update all (APT, Flatpak)"
   exit 1
 }
 
 # Standardwerte für Flags setzen
 update_apt=0
 update_flatpak=0
-update_snap=0
 update_all=0
 
 # Überprüfen, ob -up als Argument übergeben wurde
@@ -24,9 +22,6 @@ for arg in "$@"; do
       ;;
     -f)
       update_flatpak=1
-      ;;
-    -s)
-      update_snap=1
       ;;
     -up)
       update_all=1
@@ -41,13 +36,12 @@ done
 if [[ $update_all -eq 1 ]]; then
   update_apt=1
   update_flatpak=1
-  update_snap=1
 fi
 
 # APT-Update ausführen, falls -a oder -up gesetzt ist
 if [[ $update_apt -eq 1 ]]; then
   echo "Updating APT packages..."
-  sudo apt update && sudo apt upgrade -y
+  sudo apt update && sudo apt upgrade && sudo apt autoremove -y
 fi
 
 # Flatpak-Update ausführen, falls -f oder -up gesetzt ist
@@ -56,14 +50,8 @@ if [[ $update_flatpak -eq 1 ]]; then
   flatpak update -y
 fi
 
-# Snap-Update ausführen, falls -s oder -up gesetzt ist
-if [[ $update_snap -eq 1 ]]; then
-  echo "Updating Snap packages..."
-  sudo snap refresh
-fi
-
 # Hinweis, falls keine Option angegeben wurde
-if [[ $update_apt -eq 0 && $update_flatpak -eq 0 && $update_snap -eq 0 ]]; then
+if [[ $update_apt -eq 0 && $update_flatpak -eq 0 ]]; then
   echo "No update option provided."
   usage
 fi
