@@ -2,10 +2,10 @@
 
 # Define the package name and version
 PACKAGE_NAME="guideos-sys-mods"
-VERSION="1.1"
+VERSION="1.3"
 
 # Define the dependencies
-DEPENDENCIES="bash"
+DEPENDENCIES="bash, communitywallpapers, guideos-icons, guideos-sys-mods, guideos-ticket-tool, lightpad, primo-di-tutto, stat-denver-tools, white-sure-theme, wp-evilware, lolcat"
 
 # Create the necessary directories
 mkdir -p ~/guideos-sys-mods/DEBIAN-BUILD-BOX/debian/DEBIAN
@@ -41,7 +41,14 @@ EOF
 # Create the postinst file
 cat > ~/guideos-sys-mods/DEBIAN-BUILD-BOX/debian/DEBIAN/postinst << 'EOF'
 #!/bin/bash
-# postinst script placeholder
+if [ -f /usr/share/icons/hicolor/symbolic/apps/guideos1-symbolic.svg ]; then
+    cp /usr/share/icons/hicolor/symbolic/apps/guideos1-symbolic.svg /usr/share/icons/hicolor/scalable/apps/cinnamon-symbolic.svg
+    echo "Icon copied successfully."
+else
+    echo "Source icon not found!"
+    exit 1
+fi
+
 EOF
 
 # Set executable permissions
