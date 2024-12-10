@@ -1,0 +1,13 @@
+Source: guideos-sys-mods
+Section: misc
+Priority: optional
+Maintainer: Actionschnitzel <actionschnitzel@guideos.de>
+Build-Depends: debhelper (>= 9),bash
+Standards-Version: 1.5.2
+Homepage: https://rueegger.me
+
+Package: guideos-sys-mods
+Architecture: all
+Depends: ${misc:Depends}, bash
+Description: Modifier for GuideOS
+ This Tool addes files to the system modify the Debian-Base.

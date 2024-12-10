@@ -1,0 +1,19 @@
+guideos-sys-mods (1.5.2) unstable; urgency=medium
+
+  * Added guideos-advert-block.
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Mon, 09 Dec 2024 19:51:00 +0000
+
+guideos-sys-mods (1.5.1) unstable; urgency=medium
+
+  * DEB-Bug-Fixes.
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Sat, 07 Dec 2024 02:35:00 +0000
+
+
+
+guideos-sys-mods (1.5) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Thu, 03 Dec 2024 20:10:00 +0000

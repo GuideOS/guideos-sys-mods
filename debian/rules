@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+PACKAGE := guideos-sys-mods
+
+%:
+	dh $@
+
+override_dh_install:
+	# Erstellen der notwendigen Verzeichnisse
+	mkdir -p debian/$(PACKAGE)/usr/bin
+	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/256x256
+	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/scalable/apps
+	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/symbolic/apps
+	mkdir -p debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)
+
+	# Kopieren der Dateien
+	cp LICENSE debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)/LICENSE
+	cp gos debian/$(PACKAGE)/usr/bin/
+	cp -r usr debian/$(PACKAGE)/
+	
+	# Setzen der Berechtigungen
+	chmod +x debian/$(PACKAGE)/usr/bin/gos
+
+
+	dh_install
