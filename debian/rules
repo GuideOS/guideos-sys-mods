@@ -8,6 +8,7 @@ PACKAGE := guideos-sys-mods
 override_dh_install:
 	# Erstellen der notwendigen Verzeichnisse
 	mkdir -p debian/$(PACKAGE)/usr/bin
+	mkdir -p debian/$(PACKAGE)/usr/lib/linux-assistant
 	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/256x256
 	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/scalable/apps
 	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/symbolic/apps
