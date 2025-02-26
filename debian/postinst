@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -e
+
+# Kategorie-Verzeichnis anlegen
+DIRECTORY_FILE="/usr/share/desktop-directories/guideos.directory"
+MENU_FILE="/etc/xdg/menus/cinnamon-applications.menu"
+ICON_PATH="/usr/share/icons/hicolor/128x128/apps/guideos-tools.png"
+
+echo "Erstelle Kategorie-Datei..."
+cat <<EOF > "$DIRECTORY_FILE"
+[Desktop Entry]
+Version=1.0
+Type=Directory
+Name=GuideOS
+Icon=$ICON_PATH
+EOF
+
+echo "Überprüfe Menüdatei..."
+if ! grep -q "GuideOS" "$MENU_FILE"; then
+    echo "Füge GuideOS zum Menü hinzu..."
+    sed -i '/<\/menu>/i\
+  <Menu>\
+    <Name>GuideOS</Name>\
+    <Directory>guideos.directory</Directory>\
+    <Include>\
+      <Category>GuideOS</Category>\
+    </Include>\
+  </Menu>' "$MENU_FILE"
+fi
+
+# Standard-Icon kopieren, falls nicht vorhanden
+if [ ! -f "$ICON_PATH" ]; then
+    echo "Erstelle Standard-Icon..."
+    cp /usr/share/pixmaps/debian-logo.png "$ICON_PATH"
+fi
+
+# Icon-Cache aktualisieren
+echo "Aktualisiere Icon-Cache..."
+gtk-update-icon-cache -f /usr/share/icons/hicolor
+
+# Menü-Cache leeren
+echo "Leere Menü-Cache..."
+rm -f ~/.config/menus/cinnamon-applications.menu.cache
+
+echo "Postinst-Skript abgeschlossen."
+exit 0

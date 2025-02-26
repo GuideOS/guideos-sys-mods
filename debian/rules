@@ -9,6 +9,7 @@ override_dh_install:
 	# Erstellen der notwendigen Verzeichnisse
 	mkdir -p debian/$(PACKAGE)/usr/bin
 	mkdir -p debian/$(PACKAGE)/usr/lib/linux-assistant
+	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/128x128/apps
 	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/256x256
 	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/scalable/apps
 	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/symbolic/apps
@@ -18,9 +19,10 @@ override_dh_install:
 	cp LICENSE debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)/LICENSE
 	cp gos debian/$(PACKAGE)/usr/bin/
 	cp -r usr debian/$(PACKAGE)/
-	
+    cp guideos-tools.png debian/$(PACKAGE)/usr/share/icons/hicolor/128x128/apps/	
 	# Setzen der Berechtigungen
 	chmod +x debian/$(PACKAGE)/usr/bin/gos
+	chmod +x debian/postinst
 
 
 	dh_install

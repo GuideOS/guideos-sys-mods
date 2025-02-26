@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -f /usr/share/icons/hicolor/symbolic/apps/guideos1-symbolic.svg ]; then
-    cp /usr/share/icons/hicolor/symbolic/apps/guideos1-symbolic.svg /usr/share/icons/hicolor/scalable/apps/cinnamon-symbolic.svg
-    echo "Icon copied successfully."
-else
-    echo "Source icon not found!"
-    exit 1
-fi
