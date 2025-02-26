@@ -1,12 +1,13 @@
 #!/bin/bash
-
 set -e
 
-# Kategorie-Verzeichnis anlegen
+# Variablen
 DIRECTORY_FILE="/usr/share/desktop-directories/guideos.directory"
 MENU_FILE="/etc/xdg/menus/cinnamon-applications.menu"
-ICON_PATH="/usr/share/icons/hicolor/128x128/apps/guideos-tools.png"
+ICON_PATH="/usr/share/icons/hicolor/128x128/apps/guideos.png"
+TMP_MENU="/tmp/cinnamon-applications.menu"
 
+# 1. Erstelle Kategorie-Datei für GuideOS
 echo "Erstelle Kategorie-Datei..."
 cat <<EOF > "$DIRECTORY_FILE"
 [Desktop Entry]
@@ -16,32 +17,38 @@ Name=GuideOS
 Icon=$ICON_PATH
 EOF
 
-echo "Überprüfe Menüdatei..."
-if ! grep -q "GuideOS" "$MENU_FILE"; then
+# 2. Überprüfe, ob der Menüeintrag bereits existiert
+if ! grep -q "<Name>GuideOS</Name>" "$MENU_FILE"; then
     echo "Füge GuideOS zum Menü hinzu..."
-    sed -i '/<\/menu>/i\
-  <Menu>\
-    <Name>GuideOS</Name>\
-    <Directory>guideos.directory</Directory>\
-    <Include>\
-      <Category>GuideOS</Category>\
-    </Include>\
-  </Menu>' "$MENU_FILE"
+    awk '
+    /<\/Menu> <!-- End Accessibility -->/ && !done {
+        print;
+        print "  <Menu>";
+        print "    <Name>GuideOS</Name>";
+        print "    <Directory>guideos.directory</Directory>";
+        print "    <Include>";
+        print "      <Category>GuideOS</Category>";
+        print "    </Include>";
+        print "  </Menu>";
+        done=1;
+        next;
+    }
+    {print}
+    ' "$MENU_FILE" > "$TMP_MENU" && mv "$TMP_MENU" "$MENU_FILE"
 fi
 
-# Standard-Icon kopieren, falls nicht vorhanden
+# 3. Standard-Icon kopieren, falls nicht vorhanden
 if [ ! -f "$ICON_PATH" ]; then
-    echo "Erstelle Standard-Icon..."
+    echo "Setze Standard-Icon..."
     cp /usr/share/pixmaps/debian-logo.png "$ICON_PATH"
 fi
 
-# Icon-Cache aktualisieren
+# 4. Aktualisiere den Icon-Cache
 echo "Aktualisiere Icon-Cache..."
 gtk-update-icon-cache -f /usr/share/icons/hicolor
 
-# Menü-Cache leeren
+# 5. Leere Menü-Cache, damit Änderungen übernommen werden
 echo "Leere Menü-Cache..."
 rm -f ~/.config/menus/cinnamon-applications.menu.cache
 
-echo "Postinst-Skript abgeschlossen."
-exit 0
+echo "Postinst-Skript abgeschlossen. Falls die Änderungen nicht sofort sichtbar sind, bitte Cinnamon oder den PC neu starten."
