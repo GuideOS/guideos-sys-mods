@@ -1,4 +1,17 @@
-guideos-sys-mods (1.5.6) unstable; urgency=medium
+guideos-sys-mods (1.6) unstable; urgency=medium
+
+  * Changed: Transition to official repo
+  * Changed: /etc/skel
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Mo, 25 Mar 2025 00:18:42 +0100
+
+guideos-sys-mods (1.5.7) unstable; urgency=medium
+
+  * Removed: Build remainings
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Tue, 04 Mar 2025 00:32:00 +0100
+
+guideos-sys-mods (1.5.6-1) unstable; urgency=medium
 
   * Added: GuideOS Menu entry
 
