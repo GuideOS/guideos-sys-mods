@@ -7,22 +7,20 @@ PACKAGE := guideos-sys-mods
 
 override_dh_install:
 	# Erstellen der notwendigen Verzeichnisse
+	mkdir -p debian/$(PACKAGE)/usr/lib/guideos-sys-mods
 	mkdir -p debian/$(PACKAGE)/usr/bin
 	mkdir -p debian/$(PACKAGE)/usr/lib/linux-assistant
-	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/128x128/apps
-	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/256x256
-	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/scalable/apps
-	mkdir -p debian/$(PACKAGE)/usr/share/icons/hicolor/symbolic/apps
 	mkdir -p debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)
 
 	# Kopieren der Dateien
 	cp LICENSE debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)/LICENSE
-	cp gos debian/$(PACKAGE)/usr/bin/
+	cp /bin/gos debian/$(PACKAGE)/usr/bin/
 	cp -r usr debian/$(PACKAGE)/
-    cp guideos-tools.png debian/$(PACKAGE)/usr/share/icons/hicolor/128x128/apps/	
+	cp -r blob debian/$(PACKAGE)/usr/lib/guideos-sys-mods/blob
 	# Setzen der Berechtigungen
 	chmod +x debian/$(PACKAGE)/usr/bin/gos
 	chmod +x debian/postinst
+	chmod +x debian/preinst
 
 
 	dh_install

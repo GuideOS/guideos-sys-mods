@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e
 
+
 # Variablen
 DIRECTORY_FILE="/usr/share/desktop-directories/guideos.directory"
 MENU_FILE="/etc/xdg/menus/cinnamon-applications.menu"
-ICON_PATH="/usr/share/icons/hicolor/128x128/apps/guideos.png"
+ICON_PATH="/usr/share/icons/hicolor/128x128/apps/guideos-tools.png"
 TMP_MENU="/tmp/cinnamon-applications.menu"
 
 # 1. Erstelle Kategorie-Datei für GuideOS
@@ -37,12 +38,6 @@ if ! grep -q "<Name>GuideOS</Name>" "$MENU_FILE"; then
     ' "$MENU_FILE" > "$TMP_MENU" && mv "$TMP_MENU" "$MENU_FILE"
 fi
 
-# 3. Standard-Icon kopieren, falls nicht vorhanden
-if [ ! -f "$ICON_PATH" ]; then
-    echo "Setze Standard-Icon..."
-    cp /usr/share/pixmaps/debian-logo.png "$ICON_PATH"
-fi
-
 # 4. Aktualisiere den Icon-Cache
 echo "Aktualisiere Icon-Cache..."
 gtk-update-icon-cache -f /usr/share/icons/hicolor
@@ -52,3 +47,34 @@ echo "Leere Menü-Cache..."
 rm -f ~/.config/menus/cinnamon-applications.menu.cache
 
 echo "Postinst-Skript abgeschlossen. Falls die Änderungen nicht sofort sichtbar sind, bitte Cinnamon oder den PC neu starten."
+
+# 6. Lösche den Ordner, falls er existiert
+if [ -d "/usr/share/icons/1.LÖSCHEN?" ]; then
+    echo "Lösche den Ordner /usr/share/icons/1.LÖSCHEN?..."
+    rm -rf "/usr/share/icons/1.LÖSCHEN?"
+fi
+
+
+
+# 7. Wenn /etc/apt/sources.list.d/home:Actionschnitzel.list und /etc/apt/trusted.gpg.d/home_Actionschnitzel.gpg existieren, dann lösche sie
+if [ -f "/etc/apt/sources.list.d/home:Actionschnitzel.list" ]; then
+    echo "Lösche /etc/apt/sources.list.d/home:Actionschnitzel.list..."
+    rm -f "/etc/apt/sources.list.d/home:Actionschnitzel.list"
+fi
+if [ -f "/etc/apt/trusted.gpg.d/home_Actionschnitzel.gpg" ]; then
+    echo "Lösche /etc/apt/trusted.gpg.d/home_Actionschnitzel.gpg..."
+    rm -f "/etc/apt/trusted.gpg.d/home_Actionschnitzel.gpg"
+fi
+
+sudo apt update
+
+# 8. GuideOS-Repository hinzufügen
+echo 'deb http://download.opensuse.org/repositories/home:/guideos/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/home:guideos.list
+curl -fsSL https://download.opensuse.org/repositories/home:guideos/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_guideos.gpg > /dev/null
+sudo apt update
+
+# 9. cp /usr/lib/guideos-sys-mods/blob/skel to /etc/
+if [ -d "/usr/lib/guideos-sys-mods/blob/skel" ]; then
+    echo "Kopiere /usr/lib/guideos-sys-mods/blob/skel nach /etc/..."
+    cp -r /usr/lib/guideos-sys-mods/blob/skel /etc/
+fi
