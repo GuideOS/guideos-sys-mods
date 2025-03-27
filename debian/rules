@@ -14,7 +14,7 @@ override_dh_install:
 
 	# Kopieren der Dateien
 	cp LICENSE debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)/LICENSE
-	cp /bin/gos debian/$(PACKAGE)/usr/bin/
+	cp gos debian/$(PACKAGE)/usr/bin/
 	cp -r usr debian/$(PACKAGE)/
 	cp -r blob debian/$(PACKAGE)/usr/lib/guideos-sys-mods/blob
 	# Setzen der Berechtigungen
