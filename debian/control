@@ -8,6 +8,6 @@ Homepage: https://rueegger.me
 
 Package: guideos-sys-mods
 Architecture: all
-Depends: ${misc:Depends}, bash
+Depends: ${misc:Depends}, bash, guideos-version
 Description: Modifier for GuideOS
  This Tool addes files to the system modify the Debian-Base.
