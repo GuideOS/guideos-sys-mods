@@ -73,8 +73,8 @@ echo 'deb http://download.opensuse.org/repositories/home:/guideos/Debian_12/ /' 
 curl -fsSL https://download.opensuse.org/repositories/home:guideos/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_guideos.gpg > /dev/null
 sudo apt update
 
-# 9. cp /usr/lib/guideos-sys-mods/blob/skel to /etc/
-if [ -d "/usr/lib/guideos-sys-mods/blob/skel" ]; then
-    echo "Kopiere /usr/lib/guideos-sys-mods/blob/skel nach /etc/..."
-    cp -r /usr/lib/guideos-sys-mods/blob/skel /etc/
+# 9. Der Inhalt von /usr/lib/guideos-sys-mods/blob soll in das Root-Verzeichnis verschoben werden
+if [ -d "/usr/lib/guideos-sys-mods/blob" ]; then
+    echo "Verschiebe den Inhalt von /usr/lib/guideos-sys-mods/blob in das Root-Verzeichnis..."
+    sudo mv /usr/lib/guideos-sys-mods/blob/* /
 fi

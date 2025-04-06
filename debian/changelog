@@ -1,3 +1,9 @@
+guideos-sys-mods (1.8) unstable; urgency=medium
+
+  * Added: Files
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Sun, 06 Apr 2025 19:29:52 +0200
+
 guideos-sys-mods (1.7) unstable; urgency=medium
 
   * Added: Dependency guideos-version
