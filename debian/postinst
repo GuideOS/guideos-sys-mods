@@ -1,80 +1,74 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
+case "$1" in
+    configure)
+        # Verzeichnis für Keyrings sicherstellen
+        echo "Erstelle /usr/share/keyrings falls nicht vorhanden..."
+        install -d -m 755 /usr/share/keyrings
 
-# Variablen
-DIRECTORY_FILE="/usr/share/desktop-directories/guideos.directory"
-MENU_FILE="/etc/xdg/menus/cinnamon-applications.menu"
-ICON_PATH="/usr/share/icons/hicolor/128x128/apps/guideos-tools.png"
-TMP_MENU="/tmp/cinnamon-applications.menu"
+        # Alte Dateien entfernen
+        FILES="
+/etc/apt/sources.list.d/home:guideos:cinnamon-trixie.list.bak
+/etc/apt/sources.list.d/home:guideos:cinnamon-trixie.sources
+/etc/apt/sources.list.d/home:guideos:trixie.list.bak
+/etc/apt/sources.list.d/home:guideos:trixie.sources
+/etc/apt/sources.list.d/home:guideos:universe.list.bak
+/etc/apt/sources.list.d/home:guideos:universe.sources
+/etc/apt/trusted.gpg.d/home_guideos_cinnamon-trixie.gpg
+/etc/apt/trusted.gpg.d/home_guideos_trixie.gpg
+/etc/apt/trusted.gpg.d/home_guideos_universe.gpg
+        "
 
-# 1. Erstelle Kategorie-Datei für GuideOS
-echo "Erstelle Kategorie-Datei..."
-cat <<EOF > "$DIRECTORY_FILE"
-[Desktop Entry]
-Version=1.0
-Type=Directory
-Name=GuideOS
-Icon=$ICON_PATH
+        for f in $FILES; do
+            if [ -e "$f" ]; then
+                echo "Entferne $f ..."
+                rm -f "$f"
+            fi
+        done
+
+        # Neue Sources-Dateien anlegen
+        echo "Erstelle neue .sources Dateien..."
+
+        cat > /etc/apt/sources.list.d/home:guideos:cinnamon-trixie.sources << 'EOF'
+Types: deb
+URIs: https://download.opensuse.org/repositories/home:guideos:cinnamon-trixie/Debian_13/
+Suites: /
+Components: 
+Signed-By: /usr/share/keyrings/home_guideos_cinnamon-trixie.gpg
 EOF
 
-# 2. Überprüfe, ob der Menüeintrag bereits existiert
-if ! grep -q "<Name>GuideOS</Name>" "$MENU_FILE"; then
-    echo "Füge GuideOS zum Menü hinzu..."
-    awk '
-    /<\/Menu> <!-- End Accessibility -->/ && !done {
-        print;
-        print "  <Menu>";
-        print "    <Name>GuideOS</Name>";
-        print "    <Directory>guideos.directory</Directory>";
-        print "    <Include>";
-        print "      <Category>GuideOS</Category>";
-        print "    </Include>";
-        print "  </Menu>";
-        done=1;
-        next;
-    }
-    {print}
-    ' "$MENU_FILE" > "$TMP_MENU" && mv "$TMP_MENU" "$MENU_FILE"
-fi
+        cat > /etc/apt/sources.list.d/home:guideos:universe.sources << 'EOF'
+Types: deb
+URIs: https://download.opensuse.org/repositories/home:guideos:universe/Debian_13/
+Suites: /
+Components: 
+Signed-By: /usr/share/keyrings/home_guideos_universe.gpg
+EOF
 
-# 4. Aktualisiere den Icon-Cache
-echo "Aktualisiere Icon-Cache..."
-gtk-update-icon-cache -f /usr/share/icons/hicolor
+        cat > /etc/apt/sources.list.d/home:guideos:trixie.sources << 'EOF'
+Types: deb
+URIs: https://download.opensuse.org/repositories/home:guideos:trixie/Debian_13/
+Suites: /
+Components: 
+Signed-By: /usr/share/keyrings/home_guideos_trixie.gpg
+EOF
 
-# 5. Leere Menü-Cache, damit Änderungen übernommen werden
-echo "Leere Menü-Cache..."
-rm -f ~/.config/menus/cinnamon-applications.menu.cache
+        # Keyrings importieren
+        echo "Importiere GPG-Keys..."
+        curl -fsSL https://download.opensuse.org/repositories/home:guideos:cinnamon-trixie/Debian_13/Release.key \
+            | gpg --dearmor > /usr/share/keyrings/home_guideos_cinnamon-trixie.gpg
 
-echo "Postinst-Skript abgeschlossen. Falls die Änderungen nicht sofort sichtbar sind, bitte Cinnamon oder den PC neu starten."
+        curl -fsSL https://download.opensuse.org/repositories/home:guideos:universe/Debian_13/Release.key \
+            | gpg --dearmor > /usr/share/keyrings/home_guideos_universe.gpg
 
-# 6. Lösche den Ordner, falls er existiert
-if [ -d "/usr/share/icons/1.LÖSCHEN?" ]; then
-    echo "Lösche den Ordner /usr/share/icons/1.LÖSCHEN?..."
-    rm -rf "/usr/share/icons/1.LÖSCHEN?"
-fi
+        curl -fsSL https://download.opensuse.org/repositories/home:guideos:trixie/Debian_13/Release.key \
+            | gpg --dearmor > /usr/share/keyrings/home_guideos_trixie.gpg
 
+        # apt Update ausführen
+        echo "Aktualisiere Paketquellen..."
+        apt-get update || true
+        ;;
+esac
 
-
-# 7. Wenn /etc/apt/sources.list.d/home:Actionschnitzel.list und /etc/apt/trusted.gpg.d/home_Actionschnitzel.gpg existieren, dann lösche sie
-if [ -f "/etc/apt/sources.list.d/home:Actionschnitzel.list" ]; then
-    echo "Lösche /etc/apt/sources.list.d/home:Actionschnitzel.list..."
-    rm -f "/etc/apt/sources.list.d/home:Actionschnitzel.list"
-fi
-if [ -f "/etc/apt/trusted.gpg.d/home_Actionschnitzel.gpg" ]; then
-    echo "Lösche /etc/apt/trusted.gpg.d/home_Actionschnitzel.gpg..."
-    rm -f "/etc/apt/trusted.gpg.d/home_Actionschnitzel.gpg"
-fi
-
-sudo apt update
-
-# 8. GuideOS-Repository hinzufügen
-echo 'deb http://download.opensuse.org/repositories/home:/guideos/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/home:guideos.list
-curl -fsSL https://download.opensuse.org/repositories/home:guideos/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_guideos.gpg > /dev/null
-sudo apt update
-
-# 9. Der Inhalt von /usr/lib/guideos-sys-mods/blob soll in das Root-Verzeichnis verschoben werden
-if [ -d "/usr/lib/guideos-sys-mods/blob" ]; then
-    echo "Verschiebe den Inhalt von /usr/lib/guideos-sys-mods/blob in das Root-Verzeichnis..."
-    sudo mv /usr/lib/guideos-sys-mods/blob/* /
-fi
+exit 0

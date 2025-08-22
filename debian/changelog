@@ -1,4 +1,16 @@
-guideos-sys-mods (1.8) unstable; urgency=medium
+guideos-sys-mods (2.1) unstable; urgency=medium
+
+  * Stable Repo Patch
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Fri, 22 Aug 2025 10:02:42 -0400
+
+guideos-sys-mods (2.0) unstable; urgency=medium
+
+  * Trixie-Fixie
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Sun, 01 Jun 2025 15:58:27 +0200
+
+guideos-sys-mods (1.9) unstable; urgency=medium
 
   * Added: Files
 
