@@ -1,3 +1,9 @@
+guideos-sys-mods (2.2) unstable; urgency=medium
+
+  * Removed: Old source lists
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Mon, 20 Oct 2025 23:36:09 +0200
+
 guideos-sys-mods (2.1) unstable; urgency=medium
 
   * Stable Repo Patch
