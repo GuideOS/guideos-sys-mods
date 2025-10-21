@@ -1,13 +1,1 @@
 #!/bin/bash
-# filepath: /debian/preinst
-
-set -e
-
-# Entfernt alle Dateien und Verzeichnisse aus /etc/skel/
-if [ -d "/etc/skel" ]; then
-    echo "Lösche Inhalte von /etc/skel/..."
-    rm -rf /etc/skel/*
-    rm -rf /etc/skel/.[!.]* /etc/skel/..?*
-fi
-
-exit 0
