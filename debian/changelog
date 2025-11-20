@@ -1,6 +1,8 @@
-guideos-sys-mods (2.3.1) unstable; urgency=medium
+guideos-sys-mods (2.3.3) unstable; urgency=medium
 
   * Smaller skel additions
+  * Fixed BTRFS-Config
+  * Fixed mimeapps.list
 
  -- Actionschnitzel <actionschnitzel@guideos.de>  Wed, 22 Oct 2025 23:33:37 +0200
 

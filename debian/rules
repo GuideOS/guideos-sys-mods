@@ -11,6 +11,7 @@ override_dh_install:
 	mkdir -p debian/$(PACKAGE)/usr/bin
 	mkdir -p debian/$(PACKAGE)/usr/lib/linux-assistant
 	mkdir -p debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)
+	mkdir -p debian/$(PACKAGE)/etc/default/grub-btrfs
 
 	# Kopieren der Dateien
 	cp LICENSE debian/$(PACKAGE)/usr/share/doc/$(PACKAGE)/LICENSE
