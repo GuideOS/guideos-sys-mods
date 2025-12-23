@@ -1,8 +1,15 @@
-guideos-sys-mods (2.3.3) unstable; urgency=medium
+guideos-sys-mods (2.3.4) unstable; urgency=medium
+
+  * Final Skel
+
+ -- Actionschnitzel <actionschnitzel@guideos.de>  Tue, 23 Dec 2025 16:08:34 +0100
+
+guideos-sys-mods (2.3.4) unstable; urgency=medium
 
   * Smaller skel additions
   * Fixed BTRFS-Config
   * Fixed mimeapps.list
+  * skel 1.0.0
 
  -- Actionschnitzel <actionschnitzel@guideos.de>  Wed, 22 Oct 2025 23:33:37 +0200
 
