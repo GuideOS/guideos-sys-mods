@@ -27,13 +27,13 @@ if [ -d "/etc/skel" ]; then
 	rm -rf /etc/skel/.[!.]* /etc/skel/..?*
 fi
 
-# Download and install skel-1.0.1
+# Download and install skel-1.1
 cd /tmp
-wget https://github.com/GuideOS/skel/archive/refs/tags/1.0.1.tar.gz
-tar -xf 1.0.1.tar.gz
-mv /tmp/skel-1.0.1/etc/skel /etc/
-rm -rf /tmp/skel-1.0.1
-rm -rf /tmp/1.0.1.tar.gz
+wget https://github.com/GuideOS/skel/archive/refs/tags/1.1.tar.gz
+tar -xf 1.1.tar.gz
+mv /tmp/skel-1.1/etc/skel /etc/
+rm -rf /tmp/skel-1.1
+rm -rf /tmp/1.1.tar.gz
 wget https://raw.githubusercontent.com/GuideOS/guideos-live-config/refs/heads/main/config/includes.chroot/etc/default/grub-btrfs/config -O /etc/default/grub-btrfs/config
 
 exit 0
